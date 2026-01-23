@@ -1,8 +1,9 @@
 # there are a set of instructions that I'd like to pull from upstream rules
-pull-upstream:
-  just github_retrieve_raw https://github.com/iloveitaly/llm-ide-rules/blob/master/.github/instructions/python.instructions.md
-  just github_retrieve_raw https://github.com/iloveitaly/llm-ide-rules/blob/master/.github/copilot-instructions.md
+pull-upstream: \
+    (github_retrieve_raw "https://github.com/iloveitaly/llm-ide-rules/blob/master/.github/instructions/python.instructions.md") \
+    (github_retrieve_raw "https://github.com/iloveitaly/llm-ide-rules/blob/master/.github/copilot-instructions.md")
 
+[private]
 github_retrieve_raw url:
   #!/usr/bin/env bash
   set -euo pipefail
