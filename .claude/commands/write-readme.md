@@ -1,9 +1,9 @@
-eWrite or update the @README.md
+Write or update the @README.md
 
 * Be concise, do not use too many adjectives
-* don't try to be too cute: no story telling and do not be overly salesly. 
+* Don't try to be too cute: no story telling and do not be overly salesly. 
 * No emojis
-* assume uv and omit pip examples
+* Assume `uv` and omit pip examples
 * Include a single line at the end `# [MIT License](LICENSE.md)`
 * First, ultrathink and investigate the source code in the repository to understand what it does
 * When writing the overview and `#` header, be sure to:
@@ -14,6 +14,7 @@ eWrite or update the @README.md
       Dependencies'
 * After a general overview, include the following sections: Installation, Usage, Features.
   * When writing out a list of features, use a bullet list.
+* Do not include every usage example varaint for a CLI or library. The goal is to give an overview so the user can figure out the rest on their own.
 
 Here's the writing style you should use:
 
