@@ -1,6 +1,4 @@
----
-applyTo: "**/*.py"
----
+
 ## Python
 
 When writing Python:
