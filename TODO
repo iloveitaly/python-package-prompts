@@ -1,0 +1,2 @@
+don't edit pyproject.toml versions
+checkout `just --list` and ignore github configuration recipes
