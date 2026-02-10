@@ -1,3 +1,3 @@
 don't edit pyproject.toml versions
 checkout `just --list` and ignore github configuration recipes
-always use structlog, never print or stdlib logging
+always use structlog, never print or stdlib logging. https://github.com/iloveitaly/structlog-config/
