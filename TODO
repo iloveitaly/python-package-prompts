@@ -1,3 +1,6 @@
 don't edit pyproject.toml versions
 checkout `just --list` and ignore github configuration recipes
 always use structlog, never print or stdlib logging. https://github.com/iloveitaly/structlog-config/
+* Use `faker` for any test input data you need to generate.
+Use `tenacity` to implement any retries.
+take a look at unstaged changes, there are some unneccessary spurious changes that you've made. Revert them.
