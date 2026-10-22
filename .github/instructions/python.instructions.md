@@ -3,7 +3,6 @@ applyTo: "**/*.py"
 ---
 ## Python
 
-
 When writing Python:
 
 * Assume the latest python, version 3.13.
@@ -12,8 +11,8 @@ When writing Python:
   * If a docstring needs formatting, use markdown. Use Google Style.
   * Prefer docstr to multi-line comments at the top of a function or file.
   * If a docstr does not span multiple lines, do not use triple-quoted strings.
-  * Add a newline after `"""` when using triple-quoted docstrings.
   * If a comment or docstr is a single line, do not end it in a period.
+  * Add a newline after all docstrs.
 * Do not create `__init__` files unless specifically instructed
 * Use Pydantic models over dataclass or a typed dict.
 * Use SQLAlchemy for generating any SQL queries.

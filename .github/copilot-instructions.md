@@ -7,7 +7,9 @@ Coding instructions for all programming languages:
 - Prefer early returns over nested if statements.
 - Prefer `continue` within a loop vs nested if statements.
 - Prefer smaller functions over larger functions. Break up logic into smaller chunks with well-named functions.
+- Use named constants for magic numbers, service urls, etc. Do not duplicate magic strings or numbers in code.
 - Prefer constants with separators: `10_000` is preferred to `10000` (or `10_00` over `1000` in the case of a integer representing cents).
+- Prefix feature-flag style constants with `{DISABLED,ENABLED}_`
 - When I ask you to write code, prioritize simplicity and legibility over covering all edge cases, handling all errors, etc.
 - When a particular need can be met with a mature, reasonably adopted and maintained package, I would prefer to use that package rather than engineering my own solution.
 - Never add error handling to catch an error without being asked to do so. Fail hard and early with assertions and allow exceptions to propagate.
@@ -17,12 +19,13 @@ Coding instructions for all programming languages:
 - Don't worry about fixing lint errors or running lint scripts unless I specifically ask you to.
 - When implementing workarounds for tooling limitations (like using `Any` for unresolvable types) or handling non-obvious edge cases, always add a brief inline comment explaining the technical reasoning.
 - Reserve exact-width `#`-box section separators for long files requiring organization, though they should not be necessary in the large majority of cases (separate files is generally better).
+- Complex functions, classes, etc (i.e. more than 10 lines or so) should have a concise docstr or comment describing their purpose.
 
 Use line breaks to organize code into logical groups. Instead of:
 
 ```python
 if not client_secret_id:
-    raise HTTPException(status.HTTP_400_BAD_REQUEST)
+    raise ClientError("Invalid client secret")
 session_id = client_secret_id.split("_secret")[0]
 ```
 
@@ -30,25 +33,49 @@ Prefer:
 
 ```python
 if not client_secret_id:
-    raise HTTPException(status.HTTP_400_BAD_REQUEST)
+    raise ClientError("Invalid client secret")
 
 session_id = client_secret_id.split("_secret")[0]
 ```
 
 **DO NOT FORGET**: keep your responses short, dense, and without fluff. I am a senior, well-educated software engineer, and hate long explanations.
 
-### Add Comments for Expert Engineer with Limited Domain Knowledge
-
-The engineer reading your code is a world-class software engineer, but is not familiar with the internals of every system. Include concise one-line comments explaining key hooks, API usage, blocks of logic, etc., to help the reader quickly understand the code you've written.
-
-In other words, embed the business requirements as comments in the code when the code does not self-document.
-
 ### Code Comments
 
-- Describe behavior as it exists today—don’t frame comments around version history or “old vs new.”
-- Only add comments if the code is not self-explanatory. Do not add obvious comments.
+Default to no comment. Names, structure, and the command itself should explain what the code does.
+
+The reader is a world-class engineer who may not know this domain or every third-party system. Add a concise one-line comment only when they would otherwise miss *why*:
+
+- a business rule the code can't express
+- non-obvious behavior or a gotcha in an external API, library, or tool
+- a workaround for a tooling limitation (e.g. `Any` for an unresolvable type)
+- a non-obvious edge case being handled
+
+If the comment restates the next line, its names, or the command's flags, delete it.
+
+Bad, restates the command:
+
+```just
+# install shared agent skills into the global skills dir
+pnpx skills add https://github.com/iloveitaly/ai-skills -g --all
+```
+
+Good, explains a tool limitation the code can't show:
+
+```just
+# docker can't copy files out of an image, only a container, so create a throwaway one
+docker create --name tmp-js-container {{JAVASCRIPT_IMAGE_TAG}}
+docker cp tmp-js-container:/app/build/production/client public
+```
+
+- Describe behavior as it exists today—don't frame comments around version history or "old vs new."
 - Do not remove existing comments.
 - Do not capitalize or add periods at the end of single-line comments.
+
+### Git Usage
+
+- Do not automatically commit changes unless I explicitly ask you to.
+- Never generate merge commits.
 
 ### Important Workflow Rules
 
@@ -57,7 +84,6 @@ Pay careful attention to these instructions when running tests, generating datab
 - Run `just` to understand the more important workflow commands.
   - Run `just --list` to see all available pre-written workflow development commands.
 - **IMPORTANT:** Never manually set environment variables that are required. You can set optional variables for debugging, but any missing required environment variables is an error that should be reported and you should stop your work immediately.
-- **NEVER** git commit changes. Always let me run any git commands which are not read-only.
 - Do not worry about cleaning up the environment. This is done automatically.
 - Run python code with `uv run python`
 - Use `pytest` to run tests. If tests fail because of a configuration, environment, or system error: let me know and stop working.
